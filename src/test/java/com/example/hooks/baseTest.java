@@ -39,7 +39,7 @@ public class baseTest {
 
         try {
 
-            URL gridUrl = new URL("http://127.0.0.1:4444");
+            URL gridUrl = new URL("http://selenium-hub-2:4444");
 
             switch (nav.toLowerCase()) {
 
