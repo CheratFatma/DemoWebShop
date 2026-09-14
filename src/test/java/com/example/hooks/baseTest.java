@@ -2,6 +2,12 @@ package com.example.hooks;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.example.Pf.HomePf;
 import com.example.Pf.RegisterPf;
@@ -13,6 +19,8 @@ import com.example.pages.ProductPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 public class baseTest {
@@ -27,7 +35,40 @@ public class baseTest {
 
     @BeforeEach
     public void setUp(){
-        driver = new ChromeDriver();
+        String nav = System.getProperty("browser", "chrome");
+
+        try {
+
+            URL gridUrl = new URL("http://127.0.0.1:4444");
+
+            switch (nav.toLowerCase()) {
+
+                case "chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    driver = new RemoteWebDriver(gridUrl, chromeOptions);
+                    break;
+
+                case "edge":
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    driver = new RemoteWebDriver(gridUrl, edgeOptions);
+                    break;
+
+                case "firefox":
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    driver = new RemoteWebDriver(gridUrl, firefoxOptions);
+                    break;
+
+                default:
+                    ChromeOptions defaultOptions = new ChromeOptions();
+                    driver = new RemoteWebDriver(gridUrl, defaultOptions);
+                    break;
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        //driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
         hpf = new HomePf(driver);
         rpf = new RegisterPf(driver);

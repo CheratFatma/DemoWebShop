@@ -23,7 +23,7 @@ pipeline {
 
         stage('Tests Selenium') {
             steps {
-                sh 'mvn test'
+                sh 'mvn test -Dbrowser=chrome'
             }
         }
     }
@@ -32,7 +32,7 @@ pipeline {
 
         always {
 
-            // Rapport JUnit / Surefire
+            // Rapport Surefire / JUnit
             junit(
                 testResults: 'target/surefire-reports/*.xml',
                 allowEmptyResults: true
@@ -45,6 +45,12 @@ pipeline {
                     [path: 'target/allure-results']
                 ]
             ])
+
+            // Archive les rapports Surefire
+            archiveArtifacts(
+                artifacts: 'target/surefire-reports/**/*',
+                allowEmptyArchive: true
+            )
         }
 
         success {
@@ -52,7 +58,7 @@ pipeline {
         }
 
         failure {
-            echo 'Les tests ont échoué'
+            echo 'Les tests Selenium ont échoué'
         }
     }
 }
