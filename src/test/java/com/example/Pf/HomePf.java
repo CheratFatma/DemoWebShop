@@ -11,8 +11,6 @@ public class HomePf {
     @FindBy(className="ico-logout") private WebElement logoutBtn;
     @FindBy(className="ico-login") private WebElement loginBtn;
 
-
-
     public HomePf(WebDriver driver){
         PageFactory.initElements(driver, this);
     }

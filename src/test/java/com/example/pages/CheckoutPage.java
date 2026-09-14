@@ -31,10 +31,6 @@ public class CheckoutPage {
     By confirm_btn = By.className("confirm-order-next-step-button");
     By confirm_msg = By.className("title");
 
-
-
-
-
     public CheckoutPage(WebDriver driver){
         this.driver = driver;
     }
